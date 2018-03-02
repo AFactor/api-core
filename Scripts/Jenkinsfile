@@ -10,12 +10,37 @@ pipeline {
   
   stages {
     
+
     stage('Check Source') {
         steps {
             deleteDir()
             checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'PathRestriction', excludedRegions: '', includedRegions: '/products']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'jenkins-generated-ssh-key', name: 'customergit', url: 'git@github.com:AFactor/API-yamls-customers.git']]])
         }
     }
+
+  //  stage('changelog print') {
+  //    steps{
+  //    script {
+  //    def changedFiles = ""
+  //    def changeLogSets = currentBuild.changeSets
+  //     for (int i = 0; i < changeLogSets.size(); i++) {
+  //         def entries = changeLogSets[i].items
+  //         for (int j = 0; j < entries.length; j++) {
+  //             def entry = entries[j]
+  //             //echo "${entry.commitId} by ${entry.author} on ${new Date(entry.timestamp)}: ${entry.msg}"
+  //             def files = new ArrayList(entry.affectedFiles)
+  //             for (int k = 0; k < files.size(); k++) {
+  //                 def file = files[k]
+  //                 changedFiles += ${file.path}
+  //             }
+  //         }
+  //     }
+  //     //sh "echo $changedFiles"
+  //    }
+     
+  //    }
+  //  }
+
     stage('Tokenize') {
       steps {
         sh '''export PATH=/sbin:/usr/sbin:/bin:/usr/bin:/usr/local/bin:/usr/local/apache-maven/apache-maven-3.3.9:/Users/Shared/Jenkins/Home/tools/jenkins.plugins.nodejs.tools.NodeJSInstallation/latest/lib/node_modules
