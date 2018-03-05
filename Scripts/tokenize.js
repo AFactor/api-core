@@ -33,38 +33,38 @@ var dirs = getDirectories(apiFolder);
 
 for (var d in dirs) {
     var dirPath = apiFolder + "/" + dirs[d];
-    //console.log('dirpath ' + dirPath);
+    //console.warn('dirpath ' + dirPath);
     if(fs.existsSync(dirPath + "/properties.json")){
         var apiFileName = glob.sync(dirPath + "/*.yaml")[0];
         
         
         swagger.validate(apiFileName, function(err, nativeObject) {
             if(err){
-                console.log('Validation of Swagger failed: ' + apiFileName);
+                console.warn('Validation of Swagger failed: ' + apiFileName);
             }
-            console.log ('API File Name' + apiFileName);
+            console.warn ('API File Name' + apiFileName);
             var configFileName = path.dirname(apiFileName) + "//properties.json" ;
-            console.log(configFileName);
+            console.warn(configFileName);
             var config = JSON.parse(fs.readFileSync(configFileName, "UTF8" ));
-            //console.log(JSON.stringify(nativeObject.swagger));
+            //console.warn(JSON.stringify(nativeObject.swagger));
             if(nativeObject.swagger){
-                console.log('API name : ' + nativeObject.info["x-ibm-name"]);
+                console.warn('API name : ' + nativeObject.info["x-ibm-name"]);
                 var apiChanged = false;
-                console.log(JSON.stringify(config)); 
+                console.warn(JSON.stringify(config)); 
                 for(var c in config){
                        
                     if(ChangeProperty(nativeObject, config[c]["key"], config[c]["value"])){
-                        console.log('property ' + config[c]["key"] + " changed");
+                        console.warn('property ' + config[c]["key"] + " changed");
                         apiChanged = true;
                     }
                     else
-                        console.log('Key ' + config[c]["key"] + ' not found in API ' +   nativeObject.info["x-ibm-name"] );
+                        console.warn('Key ' + config[c]["key"] + ' not found in API ' +   nativeObject.info["x-ibm-name"] );
                 }
                 //writting back if changed
                 if(apiChanged){
                     var yamlString = yaml.stringify(nativeObject, 4);
                     fs.writeFileSync(apiFileName, yamlString, 'utf8');
-                    console.log('API ' + nativeObject.info["x-ibm-name"] + " is modified and written back in " + apiFileName );
+                    console.warn('API ' + nativeObject.info["x-ibm-name"] + " is modified and written back in " + apiFileName );
                 }
             }
 
