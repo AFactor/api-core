@@ -15,7 +15,17 @@ pipeline {
         steps {
             deleteDir()
             checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'PathRestriction', excludedRegions: '', includedRegions: '/products']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'jenkins-generated-ssh-key', name: 'customergit', url: 'git@github.com:AFactor/API-yamls-customers.git']]])
+
         }
+
+    }
+
+    stage ('get core') {
+      steps {
+        dir('core') {
+        git url: 'git@github.com:AFactor/api-core.git'
+    }
+      }
     }
 
   //  stage('changelog print') {
@@ -41,7 +51,7 @@ pipeline {
   //    }
   //  }
 
-    stage('Tokenize') {
+    stage('Validate and Tokenize') {
       steps {
         sh '''export PATH=/sbin:/usr/sbin:/bin:/usr/bin:/usr/local/bin:/usr/local/apache-maven/apache-maven-3.3.9:/Users/Shared/Jenkins/Home/tools/jenkins.plugins.nodejs.tools.NodeJSInstallation/latest/lib/node_modules
               node -v
