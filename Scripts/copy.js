@@ -8,7 +8,7 @@ var
 
 
 
-console.log('now creating a tmp sub folder');
+console.warn('now creating a tmp sub folder');
 var folderName = util.format("tmp_%s_%s", process.argv[2], new Date().getTime());
 fs.mkdirSync(folderName);
 console.log('tmp folder ' + folderName + ' created');
