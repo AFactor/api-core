@@ -4,7 +4,7 @@ swagger = require('swagger-parser'),
 path = require('path');
 
 var apiFolder = "./apis";
-
+console.warn(process.argv[2])
 function getDirectories(folderName){
     return fs.readdirSync(folderName).filter(function(file){
         return fs.statSync(path.join(folderName, file)).isDirectory()
