@@ -7,7 +7,7 @@ var
 
 
 
-console.warn(process.argv[3]);
+console.warn('changelog: ' + process.argv[3]);
 console.warn('now creating a tmp sub folder');
 var folderName = util.format("tmp_%s_%s", process.argv[2], new Date().getTime());
 fs.mkdirSync(folderName);
@@ -18,8 +18,7 @@ console.warn('now copy relevant products');
 glob("./products/*.yaml", null, function (er, files) {
   for(var f in files){
     var fileName = files[f].split("/")[files[f].split("/").length-1];
-    console.warn('product file name ' + fileName)
-    console.warn('product file name ' + files[f])
+    
     if(searchFor(process.argv,fileName)){
       console.warn('Copying changed product ' + fileName + ' across the tmp folder');
       cp.sync(files[f], folderName);
