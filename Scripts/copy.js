@@ -17,8 +17,9 @@ cp.sync('./apis/**/*.yaml', "./" + folderName);
 console.warn('now copy relevant products, if any');
 glob("./products/*.yaml", null, function (er, files) {
   for(var f in files){
-    //var fileName = files[f].split("/")[files[f].split("/").length-1];
-    var fileName = files[f];
+    var fileName = files[f].split("/")[files[f].split("/").length-1];
+    console.warn('filename: ' + fileName);
+    //var fileName = files[f];
     if(searchFor(process.argv,fileName)){
       console.warn('Copying changed product ' + fileName + ' across the tmp folder');
       cp.sync(files[f], folderName);
