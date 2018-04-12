@@ -5,4 +5,4 @@ echo node -v
 echo 'avik'
 b=${currentBuild.changeSets}
 npm install --prefix core/Scripts
-node core/Scripts/tokenize.js $b
+node core/Scripts/tokenize.js $@
